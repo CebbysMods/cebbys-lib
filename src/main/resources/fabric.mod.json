@@ -6,23 +6,23 @@
   "name": "Celib - CebbyS Library Mod",
   "description": "Library For CebbyS Mods",
   "authors": [
-    "CebbyS",
-    "DomamaN202"
+    "CebbyS"
   ],
   "contact": {
     "homepage": "https://github.com/CebbysMods",
     "sources": "https://github.com/CebbysMods/celib-mod"
   },
-
   "license": "MIT",
   "icon": "assets/celib/icon.png",
-
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.cebbys.celib.Celib"
+      "lv.cebbys.celib.Celib"
     ]
   },
+  "mixins" : [
+  	"celib.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=0.7.4",
     "fabric": "*",

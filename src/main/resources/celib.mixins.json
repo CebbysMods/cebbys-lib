@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "lv.cebbys.celib.mixins",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "CelibResourcePackAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
