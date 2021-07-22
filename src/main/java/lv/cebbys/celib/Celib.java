@@ -20,7 +20,7 @@ public class Celib implements ModInitializer {
 		CelibLogger.log("Celib - CebbyS Library loaded !");
 
 		DatapackHandler.addDatapackProvider(CelibDirectories.DATAPACKS.toFile(),
-				ResourcePackSource.method_29486("pack.source.celib"));
+				ResourcePackSource.nameAndSource("pack.source.celib"));
 	}
 
 	static {
