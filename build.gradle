@@ -18,6 +18,9 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.1'
+	implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.1'
+
 }
 
 processResources {
@@ -55,6 +58,13 @@ publishing {
 	}
 
 	repositories {
-
+		maven {
+//			url = "https://cebbys-repomanager.herokuapp.com/package/cebbys/mcmods"
+//			allowInsecureProtocol(true)
+//			credentials {
+//				username = System.getenv("RM_KEY")
+//				password = System.getenv("RM_TOKEN")
+//			}
+		}
 	}
 }
