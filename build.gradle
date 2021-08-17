@@ -1,3 +1,8 @@
+plugins {
+    id 'java'
+    id 'fabric-loom'
+}
+
 group = project.maven_group
 version = project.mod_version
 archivesBaseName = project.mod_name
@@ -6,14 +11,39 @@ repositories {
     mavenCentral()
 }
 
+processResources {
+    inputs.property("mod_version", project.mod_version)
+    filesMatching("fabric.mod.json") {
+        expand "mod_version": project.mod_version
+    }
+}
+
 dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
     compileOnly 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
-
     testCompileOnly 'org.projectlombok:lombok:1.18.20'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+    compileOnly project(':celib-mod:processor')
+    annotationProcessor project(':celib-mod:processor')
 }
 
 test {
     useJUnitPlatform()
+}
+
+
+java {
+    withSourcesJar()
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.archivesBaseName}" }
+    }
 }

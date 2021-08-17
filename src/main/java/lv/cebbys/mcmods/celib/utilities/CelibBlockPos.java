@@ -6,38 +6,38 @@ import net.minecraft.util.math.Vec3d;
 
 public class CelibBlockPos extends BlockPos {
 
-	public CelibBlockPos(int x, int y, int z) {
-		super(x, y, z);
-	}
+    public CelibBlockPos(int x, int y, int z) {
+        super(x, y, z);
+    }
 
-	public static CelibBlockPos of(BlockPos p) {
-		return new CelibBlockPos(p.getX(), p.getY(), p.getZ());
-	}
+    public static CelibBlockPos of(BlockPos p) {
+        return new CelibBlockPos(p.getX(), p.getY(), p.getZ());
+    }
 
-	public CelibBlockPos add(BlockPos p) {
-		return new CelibBlockPos(this.getX() + p.getX(), this.getY() + p.getY(), this.getZ() + p.getZ());
-	}
-	
-	public CelibBlockPos sub(BlockPos p) {
-		return new CelibBlockPos(this.getX() - p.getX(), this.getY() - p.getY(), this.getZ() - p.getZ());
-	}
+    public static Vec3d toVec3d(BlockPos p) {
+        return new Vec3d(p.getX(), p.getY(), p.getZ());
+    }
 
-	@Override
-	public CelibBlockPos offset(Direction d) {
-		return this.offset(d.getOffsetX(), d.getOffsetY(), d.getOffsetZ());
-	}
-	
-	public CelibBlockPos offset(int x, int y, int z) {
-		return new CelibBlockPos(this.getX() + x, this.getY() + y, this.getZ() + z);
-	}
+    public CelibBlockPos add(BlockPos p) {
+        return new CelibBlockPos(this.getX() + p.getX(), this.getY() + p.getY(), this.getZ() + p.getZ());
+    }
 
-	public static Vec3d toVec3d(BlockPos p) {
-		return new Vec3d(p.getX(), p.getY(), p.getZ());
-	}
+    public CelibBlockPos sub(BlockPos p) {
+        return new CelibBlockPos(this.getX() - p.getX(), this.getY() - p.getY(), this.getZ() - p.getZ());
+    }
 
-	public Vec3d toVec3d() {
-		return new Vec3d(this.getX(), this.getY(), this.getZ());
-	}
+    @Override
+    public CelibBlockPos offset(Direction d) {
+        return this.offset(d.getOffsetX(), d.getOffsetY(), d.getOffsetZ());
+    }
+
+    public CelibBlockPos offset(int x, int y, int z) {
+        return new CelibBlockPos(this.getX() + x, this.getY() + y, this.getZ() + z);
+    }
+
+    public Vec3d toVec3d() {
+        return new Vec3d(this.getX(), this.getY(), this.getZ());
+    }
 
 //	public CelibBlockPos(int x, int y, int z) {
 //		super(x, y, z);

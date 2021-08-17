@@ -9,7 +9,7 @@ import net.minecraft.util.registry.Registry;
 
 public class BlockRegistry {
 
-	@Deprecated
+    @Deprecated
     public static void registerBlock(Block block, String modId, String blockId) {
         Registry.register(
                 Registry.BLOCK,
@@ -18,7 +18,7 @@ public class BlockRegistry {
         );
     }
 
-	@Deprecated
+    @Deprecated
     public static void registerBlockWithItem(Block block, String modId, String blockId, Item.Settings itemSettings) {
         registerBlock(block, modId, blockId);
         Registry.register(
@@ -28,13 +28,13 @@ public class BlockRegistry {
         );
     }
 
-	@Deprecated
+    @Deprecated
     public static void registerBlockWithItem(Block block, String modId, String blockId, RenderLayer layer, Item.Settings itemSettings) {
         registerBlockWithItem(block, modId, blockId, itemSettings);
         BlockRenderLayerRegistry.registerLayer(block, layer);
     }
 
-	@Deprecated
+    @Deprecated
     public static void registerBlock(Block block, String modId, String blockId, RenderLayer layer) {
         registerBlock(block, modId, blockId);
         BlockRenderLayerRegistry.registerLayer(block, layer);

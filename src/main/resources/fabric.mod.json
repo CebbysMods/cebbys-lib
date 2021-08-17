@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "id": "celib",
   "version": "${mod_version}",
-
   "name": "Celib - CebbyS Library Mod",
   "description": "Library For CebbyS Mods",
   "authors": [
@@ -20,8 +19,8 @@
       "lv.cebbys.mcmods.celib.Celib"
     ]
   },
-  "mixins" : [
-  	"celib.mixins.json"
+  "mixins": [
+    "celib.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.11.0",

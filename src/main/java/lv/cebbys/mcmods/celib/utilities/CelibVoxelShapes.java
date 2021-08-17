@@ -1,10 +1,10 @@
 package lv.cebbys.mcmods.celib.utilities;
 
-import java.util.List;
-
 import net.minecraft.util.math.Box;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
+
+import java.util.List;
 
 public class CelibVoxelShapes {
 

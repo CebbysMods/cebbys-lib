@@ -1,19 +1,19 @@
 package lv.cebbys.mcmods.celib.api.registries;
 
 import com.mojang.serialization.Lifecycle;
-import lv.cebbys.mcmods.celib.dataloader.packs.CelibAssetPack;
-import lv.cebbys.mcmods.celib.dataloader.packs.CelibDataPack;
 import lv.cebbys.mcmods.celib.Celib;
+import lv.cebbys.mcmods.celib.handlers.datagen.packs.AssetPack;
+import lv.cebbys.mcmods.celib.handlers.datagen.packs.DataPack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.MutableRegistry;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.util.registry.SimpleRegistry;
 
-@SuppressWarnings(value = {"unchecked"})
+@SuppressWarnings("all")
 public class CelibRegistries {
-    public static final MutableRegistry<CelibAssetPack> CLIENT_RESOURCES;
-    public static final MutableRegistry<CelibDataPack> SERVER_RESOURCES;
+    public static final MutableRegistry<AssetPack> CLIENT_RESOURCES;
+    public static final MutableRegistry<DataPack> SERVER_RESOURCES;
 
     static {
         CLIENT_RESOURCES = new SimpleRegistry<>(
