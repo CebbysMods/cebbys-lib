@@ -85,6 +85,10 @@ public class CelibLogger {
         String className = trace.getClassName();
         className = className.substring(className.lastIndexOf(".") + 1);
         String methodName = trace.getMethodName();
+        if(methodName.startsWith("redirect$")) {
+            methodName = methodName.substring(methodName.lastIndexOf("$") + 1);
+        }
+        if(methodName.equals("<init>")) methodName = "constructor";
         return String.format("[%s.%s]: %s", className, methodName, msg);
     }
 }

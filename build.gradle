@@ -7,6 +7,27 @@ group = project.maven_group
 version = project.mod_version
 archivesBaseName = project.mod_name
 
+//tasks.named("compileJava") {
+//    ext.rmr = { directoryToBeDeleted ->
+//        File[] allContents = directoryToBeDeleted.listFiles();
+//        if (allContents != null) {
+//            for (File file : allContents) {
+//                rmr(file);
+//            }
+//        }
+//        return directoryToBeDeleted.delete();
+//    }
+//
+//    doFirst() {
+//        String pd = projectDir.toString();
+//        System.out.println("> Task :mods:celib-mod:setupProcessor")
+//        System.out.printf("Setting variable [processor_source_dir:%s]%n", pd)
+//        System.setProperty("processor_source_dir", pd)
+//        System.out.printf("Clearing previously generated source files%n")
+//        rmr(new File(String.format("%s\\src\\main\\generated", pd)))
+//    }
+//}
+
 repositories {
     mavenCentral()
 }
@@ -29,8 +50,8 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok:1.18.20'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
 
-    compileOnly project(':celib-mod:processor')
-    annotationProcessor project(':celib-mod:processor')
+//    compileOnly project(':tools:celib-processor')
+//    annotationProcessor project(':tools:celib-processor')
 }
 
 test {

@@ -3,20 +3,16 @@ package lv.cebbys.mcmods.celib.handlers.datagen.resources.asset;
 import lv.cebbys.mcmods.celib.handlers.datagen.DataType;
 import lv.cebbys.mcmods.celib.handlers.datagen.resources.helper.JsonObjectResource;
 import lv.cebbys.mcmods.celib.loggers.CelibLogger;
-import lv.cebbys.mcmods.celib.processor.api.ResourceElement;
-import lv.cebbys.mcmods.celib.processor.api.Resource;
 import net.minecraft.util.Identifier;
+import org.lwjgl.system.CallbackI;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
-@Resource
 public class ItemModel extends JsonObjectResource<ItemModel> {
 
-    @ResourceElement
     private String parent;
-    @ResourceElement(singleCall = false)
     private Map<String, DisplayElement> display;
 
     public ItemModel parent(Identifier path) {
@@ -27,6 +23,13 @@ public class ItemModel extends JsonObjectResource<ItemModel> {
         return this;
     }
 
+    public DisplayElements display() {
+        DisplayElements elements = new DisplayElements();
+        this.display = elements.getElements();
+        return elements;
+    }
+
+    @Deprecated
     public ItemModel display(Consumer<DisplayElements> display) {
         if(this.display != null) {
             CelibLogger.warn("Overriding already initialized display element");
