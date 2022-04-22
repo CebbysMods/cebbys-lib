@@ -2,9 +2,8 @@
   "required": true,
   "minVersion": "0.8",
   "package": "lv.cebbys.mcmods.celib.mixins",
-  "compatibilityLevel": "JAVA_16",
+  "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "ResourceProviderMixin"
   ],
   "injectors": {
     "defaultRequire": 1

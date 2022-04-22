@@ -1,11 +1,9 @@
-# Celib
+# Fabric Example Mod
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![CurseForge](https://img.shields.io/static/v1?style=popout&label=curseforge&message=project&color=6441A4)](https://www.curseforge.com/minecraft/mc-mods/celib)
+## Setup
 
-Open source library from Cebbys mods!
+For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
 
-##### Contributors
+## License
 
-> CebbyS https://github.com/CebbyS </br>
-> Domaman202 https://github.com/Domaman202
+This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.

@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
   "id": "celib",
-  "version": "${mod_version}",
-  "name": "Celib - CebbyS Library Mod",
-  "description": "Library For CebbyS Mods",
+  "version": "${version}",
+  "name": "Celib",
+  "description": "CebbyS Library",
   "authors": [
     "CebbyS"
   ],
   "contact": {
-    "homepage": "https://github.com/CebbysMods",
-    "sources": "https://github.com/CebbysMods/celib-mod"
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
   },
-  "license": "MIT",
+  "license": "CC0-1.0",
   "icon": "assets/celib/icon.png",
   "environment": "*",
   "entrypoints": {
@@ -23,11 +23,9 @@
     "celib.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.11.0",
+    "fabricloader": ">=0.13.0",
     "fabric": "*",
-    "minecraft": "1.17.x"
-  },
-  "suggests": {
-    "flamingo": "*"
+    "minecraft": "1.18.x",
+    "java": ">=17"
   }
 }

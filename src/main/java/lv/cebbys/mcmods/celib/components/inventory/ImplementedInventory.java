@@ -1,4 +1,4 @@
-package lv.cebbys.mcmods.celib.api;
+package lv.cebbys.mcmods.celib.components.inventory;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
