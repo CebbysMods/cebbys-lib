@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "celib",
+  "id": "${modid}",
   "version": "${version}",
   "name": "Celib",
   "description": "CebbyS Library",
@@ -25,7 +25,7 @@
   "depends": {
     "fabricloader": ">=0.13.0",
     "fabric": "*",
-    "minecraft": "1.18.x",
+    "minecraft": "${dependency_minecraft}",
     "java": ">=17"
   }
 }

@@ -7,7 +7,7 @@ sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
 
 archivesBaseName = project.archives_base_name
-version = project.mod_version
+version = project.mod_version + "+" + project.minecraft_version
 group = project.maven_group
 
 repositories {
@@ -29,10 +29,16 @@ dependencies {
 }
 
 processResources {
-    inputs.property "version", project.version
+    Map<?, ?> properties = Map.of(
+            "modid", project.archives_base_name,
+            "version", project.version,
+            "dependency_minecraft", getMinecraftDependency()
+    )
+
+    inputs.properties(properties)
 
     filesMatching("fabric.mod.json") {
-        expand "version": project.version
+        expand properties
     }
 }
 
@@ -72,4 +78,19 @@ publishing {
             url = "https://prod-cebbys-repomanager.herokuapp.com"
         }
     }
+}
+
+String getMinecraftDependency(String minecraftVersion) {
+    if (minecraftVersion == null || "" == minecraftVersion) throw new RuntimeException("Provided minecraft version is invalid")
+    if (minecraftVersion.matches('^[\\d]+.[\\d]+.[\\d]+$')) {
+        return minecraftVersion.substring(0, minecraftVersion.lastIndexOf(".")) + ".x"
+    } else if (minecraftVersion.matches('^[\\d]+.[\\d]+$')) {
+        return minecraftVersion + ".x"
+    } else {
+        return getMinecraftDependency(null)
+    }
+}
+
+String getMinecraftDependency() {
+    return getMinecraftDependency(project.minecraft_version)
 }
