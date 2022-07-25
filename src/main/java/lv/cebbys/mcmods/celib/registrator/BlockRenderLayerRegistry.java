@@ -1,20 +1,20 @@
-package lv.cebbys.mcmods.celib.registrators;
+package lv.cebbys.mcmods.celib.registrator;
 
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.minecraft.block.Block;
-import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.world.level.block.Block;
 
 import java.util.HashMap;
 
 public class BlockRenderLayerRegistry {
 
-    private static HashMap<Block, RenderLayer> RENDER_LAYERS;
+    private static final HashMap<Block, RenderType> RENDER_LAYERS;
 
     static {
-        RENDER_LAYERS = new HashMap<Block, RenderLayer>();
+        RENDER_LAYERS = new HashMap<>();
     }
 
-    public static void registerLayer(Block block, RenderLayer layer) {
+    public static void registerLayer(Block block, RenderType layer) {
         RENDER_LAYERS.put(block, layer);
     }
 

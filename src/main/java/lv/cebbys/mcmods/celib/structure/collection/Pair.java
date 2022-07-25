@@ -1,10 +1,10 @@
-package lv.cebbys.mcmods.celib.structures;
+package lv.cebbys.mcmods.celib.structure.collection;
 
-public class Two<A, B> {
+public class Pair<A, B> {
     private final A first;
     private final B second;
 
-    public Two(A f, B s) {
+    public Pair(A f, B s) {
         this.first = f;
         this.second = s;
     }
@@ -30,7 +30,7 @@ public class Two<A, B> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Two<?, ?> two = (Two<?, ?>) o;
+        Pair<?, ?> two = (Pair<?, ?>) o;
 
         if (!first.equals(two.first)) return false;
         return second.equals(two.second);

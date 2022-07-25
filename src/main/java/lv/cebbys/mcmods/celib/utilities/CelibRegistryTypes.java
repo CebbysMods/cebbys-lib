@@ -1,7 +1,7 @@
 package lv.cebbys.mcmods.celib.utilities;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 
 public class CelibRegistryTypes {
 

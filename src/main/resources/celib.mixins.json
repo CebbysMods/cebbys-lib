@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "lv.cebbys.mcmods.celib.mixins",
+  "package": "lv.cebbys.mcmods.celib.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
   ],

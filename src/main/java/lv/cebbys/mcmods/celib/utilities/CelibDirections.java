@@ -1,27 +1,22 @@
 package lv.cebbys.mcmods.celib.utilities;
 
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.core.Direction;
+import net.minecraft.world.phys.Vec3;
 
 public class CelibDirections {
 
-    public static Direction toDirection(Vec3d v) {
-        switch (getMaxComponent(v)) {
-            case X:
-                return Direction.from(Component.X.toAxis(), toAxisDirection(v.getX()));
-            case Y:
-                return Direction.from(Component.Y.toAxis(), toAxisDirection(v.getY()));
-            case Z:
-                return Direction.from(Component.Z.toAxis(), toAxisDirection(v.getZ()));
-            default:
-                throw new RuntimeException("Invalid result at CelibDirections#getMaxComponent()");
-        }
+    public static Direction toDirection(Vec3 v) {
+        return switch (getMaxComponent(v)) {
+            case X -> Direction.fromAxisAndDirection(Component.X.toAxis(), toAxisDirection(v.x()));
+            case Y -> Direction.fromAxisAndDirection(Component.Y.toAxis(), toAxisDirection(v.y()));
+            case Z -> Direction.fromAxisAndDirection(Component.Z.toAxis(), toAxisDirection(v.z()));
+        };
     }
 
-    private static Component getMaxComponent(Vec3d v) {
-        double x = Math.abs(v.getX());
-        double y = Math.abs(v.getY());
-        double z = Math.abs(v.getZ());
+    private static Component getMaxComponent(Vec3 v) {
+        double x = Math.abs(v.x());
+        double y = Math.abs(v.y());
+        double z = Math.abs(v.z());
         if (x >= y && x >= z) {
             return Component.X;
         } else if (z >= x && z >= y) {

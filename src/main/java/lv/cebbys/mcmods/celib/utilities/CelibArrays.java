@@ -6,11 +6,7 @@ import java.util.Arrays;
 public class CelibArrays {
 
     public static <T> ArrayList<T> getArrayList(T[] array) {
-        ArrayList<T> list = new ArrayList<T>();
-        Arrays.stream(array).forEach(element -> {
-            list.add(element);
-        });
-        return list;
+        return new ArrayList<T>(Arrays.asList(array));
     }
 
     public static <T extends Enum<?>> ArrayList<T> getArrayList(Class<T> e) {
