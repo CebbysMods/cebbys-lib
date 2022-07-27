@@ -80,17 +80,14 @@ publishing {
     }
 }
 
-String getMinecraftDependency(String minecraftVersion) {
+String getMinecraftDependency() {
+    String minecraftVersion = project.minecraft_version;
     if (minecraftVersion == null || "" == minecraftVersion) throw new RuntimeException("Provided minecraft version is invalid")
     if (minecraftVersion.matches('^[\\d]+.[\\d]+.[\\d]+$')) {
         return minecraftVersion.substring(0, minecraftVersion.lastIndexOf(".")) + ".x"
     } else if (minecraftVersion.matches('^[\\d]+.[\\d]+$')) {
         return minecraftVersion + ".x"
     } else {
-        return getMinecraftDependency(null)
+        throw new RuntimeException("Provided minecraft version is invalid: " + minecraftVersion)
     }
-}
-
-String getMinecraftDependency() {
-    return getMinecraftDependency(project.minecraft_version)
 }

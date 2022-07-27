@@ -4,6 +4,7 @@
   "package": "lv.cebbys.mcmods.celib.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "v1_19.BlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1
