@@ -14,7 +14,13 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class TestBasicBlock implements CelibBlock {
+public class TestBasicBlock extends CelibBlock {
+    private final TestBasicBlockProperties properties;
+
+    public TestBasicBlock() {
+        properties = new TestBasicBlockProperties();
+    }
+
     @Override
     public @NotNull Block asBlock() {
         return null;
@@ -27,7 +33,7 @@ public class TestBasicBlock implements CelibBlock {
 
     @Override
     public CelibBlockProperties getCelibBlockProperties() {
-        return null;
+        return properties;
     }
 
     @Override
