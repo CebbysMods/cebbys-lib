@@ -1,4 +1,4 @@
-package lv.cebbys.mcmods.celib.mod.utilities;
+package lv.cebbys.mcmods.celib.mod.utility;
 
 import java.util.function.Consumer;
 import java.util.function.Function;

@@ -1,4 +1,4 @@
-package lv.cebbys.mcmods.celib.mod.utilities;
+package lv.cebbys.mcmods.celib.mod.utility;
 
 import lv.cebbys.mcmods.celib.mod.exception.TransformationException;
 

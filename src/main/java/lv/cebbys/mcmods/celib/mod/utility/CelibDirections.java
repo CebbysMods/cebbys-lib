@@ -1,4 +1,4 @@
-package lv.cebbys.mcmods.celib.mod.utilities;
+package lv.cebbys.mcmods.celib.mod.utility;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.phys.Vec3;

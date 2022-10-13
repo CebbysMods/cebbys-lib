@@ -1,6 +1,6 @@
 package lv.cebbys.mcmods.celib.api.component.block;
 
-import lv.cebbys.mcmods.celib.api.component.CelibItem;
+import lv.cebbys.mcmods.celib.api.component.item.CelibItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;

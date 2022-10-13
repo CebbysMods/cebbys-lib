@@ -1,4 +1,4 @@
-package lv.cebbys.mcmods.celib.mod.utilities;
+package lv.cebbys.mcmods.celib.mod.utility;
 
 import lombok.AllArgsConstructor;
 import net.minecraft.core.Registry;
@@ -7,7 +7,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
-import static lv.cebbys.mcmods.celib.mod.utilities.CelibRegistryTypes.BlockWithItem;
+import static lv.cebbys.mcmods.celib.mod.utility.CelibRegistryTypes.BlockWithItem;
 
 @AllArgsConstructor
 public class CelibRegistrator {

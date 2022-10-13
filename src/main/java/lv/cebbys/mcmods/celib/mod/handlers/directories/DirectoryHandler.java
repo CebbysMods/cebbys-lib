@@ -1,5 +1,7 @@
 package lv.cebbys.mcmods.celib.mod.handlers.directories;
 
+import net.minecraft.world.level.block.Block;
+
 import java.io.File;
 import java.nio.file.Path;
 

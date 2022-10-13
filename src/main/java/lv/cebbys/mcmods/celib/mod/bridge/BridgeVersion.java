@@ -1,22 +1,19 @@
-package lv.cebbys.mcmods.celib.mod.component.linkloader;
+package lv.cebbys.mcmods.celib.mod.bridge;
 
-import lv.cebbys.mcmods.celib.api.maybe.Maybe;
-import lv.cebbys.mcmods.celib.mod.exception.LinkException;
-import lv.cebbys.mcmods.celib.mod.utilities.FormatUtils;
+import lv.cebbys.mcmods.celib.api.maybe.MaybeOld;
+import lv.cebbys.mcmods.celib.mod.exception.CelibBridgeException;
+import lv.cebbys.mcmods.celib.mod.utility.FormatUtils;
 
 import java.util.Arrays;
 
-public enum LinkVersion {
+public enum BridgeVersion {
     INVALID(-1, -1),
-    V16(1, 16),
-    V17(1, 17),
-    V18(1, 18),
     V19(1, 19);
 
     private final int main;
     private final int major;
 
-    LinkVersion(int main, int major) {
+    BridgeVersion(int main, int major) {
         this.main = main;
         this.major = major;
     }
@@ -25,8 +22,8 @@ public enum LinkVersion {
         return "v" + main + "_" + major;
     }
 
-    public static LinkVersion toLinkVersion(String version) {
-        LinkVersion out = new Maybe<>(version)
+    public static BridgeVersion toLinkVersion(String version) {
+        BridgeVersion out = new MaybeOld<>(version)
                 .continueIfNot(""::equals)
                 .continueIf(v ->
                         v.matches("^[\\d]+\\.[\\d]+\\.[\\d]+$") || v.matches("^[\\d]+\\.[\\d]+$")
@@ -38,12 +35,12 @@ public enum LinkVersion {
                     int majorInt = FormatUtils.toInt(v);
                     return toLinkVersion(mainInt, majorInt);
                 }).get();
-        if (out == null) throw new LinkException("Failed to convert Minecraft version: " + version);
+        if (out == null) out = BridgeVersion.INVALID;
         return out;
     }
 
-    public static LinkVersion toLinkVersion(int main, int major) {
-        return Arrays.stream(LinkVersion.values())
+    public static BridgeVersion toLinkVersion(int main, int major) {
+        return Arrays.stream(BridgeVersion.values())
                 .filter(v -> v.main == main)
                 .filter(v -> v.major == major)
                 .findFirst().orElse(INVALID);

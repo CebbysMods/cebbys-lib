@@ -26,6 +26,11 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
     testCompileOnly 'org.projectlombok:lombok:1.18.24'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    // JUnit
+    implementation "org.mockito:mockito-core:${project.version_mockito}"
+    implementation "org.junit.jupiter:junit-jupiter-api:${project.version_junit}"
+    runtimeOnly "org.junit.jupiter:junit-jupiter-engine:${project.version_junit}"
 }
 
 processResources {
@@ -58,6 +63,10 @@ jar {
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}" }
     }
+}
+
+test {
+    useJUnitPlatform()
 }
 
 // configure the maven publication

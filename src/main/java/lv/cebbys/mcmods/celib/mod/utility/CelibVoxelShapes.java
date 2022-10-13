@@ -1,4 +1,4 @@
-package lv.cebbys.mcmods.celib.mod.utilities;
+package lv.cebbys.mcmods.celib.mod.utility;
 
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.Shapes;
