@@ -114,7 +114,6 @@ public class CelibBridgeBlock extends Block {
         getBridge().afterBreakByPlayerEvent(levelAccessor, blockPos, blockState);
     }
 
-    @Deprecated
     @Override
     public List<ItemStack> getDrops(BlockState blockState, LootContext.Builder builder) {
         LOGGER.info("{}.getDrops", BRIDGE);
@@ -127,7 +126,7 @@ public class CelibBridgeBlock extends Block {
 
     @Override
     public float getDestroyProgress(BlockState blockState, Player player, BlockGetter blockGetter, BlockPos blockPos) {
-        getBridge().whileBreakingEvent(player.getLevel(), blockPos, blockState, player);
+        getBridge().whileBreakByPlayerEvent(player.getLevel(), blockPos, blockState, player);
         return getProperties().getBreakingSpeed(blockState, player, blockGetter, blockPos);
     }
 
@@ -149,19 +148,17 @@ public class CelibBridgeBlock extends Block {
 
     @Override
     public void stepOn(Level level, BlockPos blockPos, BlockState blockState, Entity entity) {
-        LOGGER.info("{}.stepOn", BRIDGE);
+        getBridge().onStandingOnEvent(level, blockPos, blockState, entity);
     }
 
     @Override
     public void playerDestroy(Level level, Player player, BlockPos blockPos, BlockState blockState, @Nullable BlockEntity blockEntity, ItemStack itemStack) {
-        LOGGER.info("{}.playerDestroy", BRIDGE);
-        super.playerDestroy(level, player, blockPos, blockState, blockEntity, itemStack);
+        getBridge().onBreakByPlayerEvent((ServerLevel) level, blockPos, blockState, player, blockEntity, itemStack);
     }
 
     @Override
     public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState blockState2, boolean bl) {
-        LOGGER.info("{}.onRemove", BRIDGE);
-        super.onRemove(blockState, level, blockPos, blockState2, bl);
+        getBridge().onRemoveEvent((ServerLevel) level, blockPos, blockState, blockState2, bl);
     }
 
     @Override
