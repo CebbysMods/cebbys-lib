@@ -16,7 +16,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "lv.cebbys.mcmods.celib.Celib"
+      "lv.cebbys.mcmods.celib.core.Celib"
     ]
   },
   "mixins": [

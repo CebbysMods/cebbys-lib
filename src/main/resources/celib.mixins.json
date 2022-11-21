@@ -1,10 +1,11 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "lv.cebbys.mcmods.celib.mixin",
-  "compatibilityLevel": "JAVA_17",
+  "package": "lv.cebbys.mcmods.celib.core.mixin",
+  "compatibilityLevel": "JAVA_18",
   "mixins": [
-    "v1_19.BlockMixin"
+  ],
+  "client": [
   ],
   "injectors": {
     "defaultRequire": 1
