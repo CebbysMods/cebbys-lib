@@ -1,70 +1,201 @@
+import java.nio.charset.StandardCharsets
+import java.util.function.Function
+import java.util.zip.ZipEntry
+import java.util.zip.ZipInputStream
+import java.util.zip.ZipOutputStream
+
 plugins {
     id 'java'
-    id 'fabric-loom'
-}
-
-group = project.maven_group
-version = project.mod_version
-archivesBaseName = project.mod_name
-
-//tasks.named("compileJava") {
-//    ext.rmr = { directoryToBeDeleted ->
-//        File[] allContents = directoryToBeDeleted.listFiles();
-//        if (allContents != null) {
-//            for (File file : allContents) {
-//                rmr(file);
-//            }
-//        }
-//        return directoryToBeDeleted.delete();
-//    }
-//
-//    doFirst() {
-//        String pd = projectDir.toString();
-//        System.out.println("> Task :mods:celib-mod:setupProcessor")
-//        System.out.printf("Setting variable [processor_source_dir:%s]%n", pd)
-//        System.setProperty("processor_source_dir", pd)
-//        System.out.printf("Clearing previously generated source files%n")
-//        rmr(new File(String.format("%s\\src\\main\\generated", pd)))
-//    }
-//}
-
-repositories {
-    mavenCentral()
-}
-
-processResources {
-    inputs.property("mod_version", project.mod_version)
-    filesMatching("fabric.mod.json") {
-        expand "mod_version": project.mod_version
-    }
-}
-
-dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-    compileOnly 'org.projectlombok:lombok:1.18.20'
-    annotationProcessor 'org.projectlombok:lombok:1.18.20'
-    testCompileOnly 'org.projectlombok:lombok:1.18.20'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
-
-//    compileOnly project(':tools:celib-processor')
-//    annotationProcessor project(':tools:celib-processor')
-}
-
-test {
-    useJUnitPlatform()
-}
-
-
-java {
-    withSourcesJar()
 }
 
 jar {
-    from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}" }
+    dependsOn("celibJar")
+}
+
+tasks.register("celibJar") {
+    dependsOn(
+            "module:api:jar",
+            "module:bridge:1.18:fabric:jar",
+            "module:bridge:1.18:forge:jar",
+            "module:loader:fabric:jar",
+            "module:loader:forge:jar",
+    )
+    doLast {
+        var jarMaps = new HashMap<String, Map<String, byte[]>>()
+        readApiJarToJarMap(jarMaps)
+        readBridgeJarToJarMap(jarMaps, "1.18")
+        readLoaderJarToJarMap(jarMaps)
+
+        var jarMap = mergeJarMapsToJarMap(jarMaps)
+        writeJarMapAsCelibJar(jarMap)
+    }
+}
+
+void writeJarMapAsCelibJar(Map<String, byte[]> jarMap) {
+    var celibJarPath = "${project.rootDir.toString()}\\build\\libs\\${project.mod_id}-${project.mod_version}.jar"
+    try (var fos = new FileOutputStream(celibJarPath); var zos = new ZipOutputStream(fos)) {
+        jarMap.forEach((var key, var content) -> {
+            var entry = new ZipEntry(key)
+            zos.putNextEntry(entry)
+            zos.write(content, 0, content.length)
+        })
+    }
+}
+
+static Map<String, byte[]> mergeJarMapsToJarMap(Map<String, Map<String, byte[]>> jarMaps) {
+    var out = new HashMap<String, byte[]>()
+    var manifests = new ArrayList<String>()
+    for (String key : jarMaps.keySet()) {
+        var jarMap = jarMaps.get(key)
+        var loaderManifest = isLoaderManifest(key)
+        jarMap.forEach((var entryKey, var entryContent) -> {
+            if ("META-INF/MANIFEST.MF" == entryKey) {
+                if (loaderManifest) {
+                    manifests.add(new String(entryContent, StandardCharsets.UTF_8))
+                }
+                return
+            }
+            if (out.containsKey(entryKey)) {
+                throw new RuntimeException("Identical name files found in multiple jars: " + entryKey)
+            }
+            out.put(entryKey, entryContent)
+        })
+    }
+
+    var manifestMap = new HashMap<String, String>()
+    for (String manifest : manifests) {
+        var reader = new StringReader(manifest)
+        var line = reader.readLine()
+        while (line != null) {
+            if (!line.contains(": ")) {
+                line = reader.readLine()
+                continue
+            }
+            var parts = line.split(": ")
+            if (manifestMap.containsKey(parts[0]) && manifestMap.get(parts[0]) != parts[1]) {
+                throw new RuntimeException("Manifest misalignment at: " + parts[0] + " - Exist different value " + parts[1])
+            }
+            manifestMap.put(parts[0], parts[1])
+            line = reader.readLine()
+        }
+    }
+
+    var sb = new StringBuilder()
+    manifestMap.forEach((var key, var value) -> {
+        sb.append(key).append(": ").append(value).append("\n")
+    })
+
+    out.put("META-INF/MANIFEST.MF", sb.toString().getBytes(StandardCharsets.UTF_8))
+
+    return out
+}
+
+static boolean isLoaderManifest(String jarFilePath) {
+    return jarFilePath.contains("module\\loader")
+}
+
+void readApiJarToJarMap(Map<String, Map<String, byte[]>> out) {
+    var path = PathType.forApi()
+    readJarToJarMap(out, path)
+}
+
+void readBridgeJarToJarMap(Map<String, Map<String, byte[]>> out, String minecraftVersion) {
+    for (ModLoader loader : ModLoader.values()) {
+        var path = PathType.forBridge(project.mod_version, minecraftVersion, loader)
+        readJarToJarMap(out, path)
+    }
+}
+
+void readLoaderJarToJarMap(Map<String, Map<String, byte[]>> out) {
+    for (ModLoader loader : ModLoader.values()) {
+        var path = PathType.forLoader(project.mod_version, loader)
+        readJarToJarMap(out, path)
+    }
+}
+
+void readJarToJarMap(Map<String, Map<String, byte[]>> out, PathType pathType) {
+    var path = pathType.getFile(project.rootDir.toString())
+    var map = readJarAsMap(path)
+    var key = path.getAbsolutePath()
+    if (out.containsKey(key)) {
+        throw new RuntimeException("JarMap already contains: " + key)
+    }
+    out.put(key, map)
+}
+
+static Map<String, byte[]> readJarAsMap(File file) {
+    var out = new HashMap<String, byte[]>()
+    try (var fileIn = new FileInputStream(file); var zipIn = new ZipInputStream(fileIn)) {
+        var zipEntry = zipIn.getNextEntry()
+        while (zipEntry != null) {
+            var entryName = zipEntry.getName()
+            if (entryName == null || entryName.endsWith("/")) {
+                zipEntry = zipIn.getNextEntry()
+                continue
+            }
+            var content = readEntryContent(zipIn)
+            out.put(entryName, content)
+            zipEntry = zipIn.getNextEntry()
+        }
+    }
+    return out
+}
+
+static byte[] readEntryContent(ZipInputStream zis) {
+    byte[] buffer
+    try (var fos = new ByteArrayOutputStream()) {
+        buffer = new byte[1024]
+        int len;
+        while ((len = zis.read(buffer)) > 0) {
+            fos.write(buffer, 0, len);
+        }
+        buffer = fos.toByteArray()
+    }
+    return buffer
+}
+
+class PathType {
+    static PathType forBridge(String modVersion, String minecraftVersion, ModLoader loader) {
+        var minecraftPathVersion = minecraftVersion.replaceAll("\\.", "-")
+        return new PathType((var root) -> "${root}\\module\\bridge\\${minecraftVersion}\\${loader}\\build\\libs\\" +
+                "celib-bridge-${minecraftPathVersion}-${loader}-${modVersion}.jar"
+        )
+    }
+
+    static PathType forLoader(String modVersion, ModLoader loader) {
+        return new PathType((var root) -> "${root}\\module\\loader\\${loader}\\build\\libs\\" +
+                "celib-loader-${loader}-${modVersion}.jar"
+        )
+    }
+
+    static PathType forApi() {
+        return new PathType((var root) -> "${root}\\module\\api\\build\\libs\\api.jar")
+    }
+
+    private final Function<String, String> pathSupplier
+
+    private PathType(Function<String, String> ps) {
+        pathSupplier = ps
+    }
+
+    File getFile(String root) {
+        var path = pathSupplier.apply(root)
+        return new File(path)
+    }
+}
+
+enum ModLoader {
+    FABRIC("fabric"),
+    FORGE("forge");
+
+    public final String id
+
+    private ModLoader(String id) {
+        this.id = id
+    }
+
+    @Override
+    String toString() {
+        return id
     }
 }
