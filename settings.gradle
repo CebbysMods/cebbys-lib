@@ -11,9 +11,10 @@ pluginManagement {
 
 include(":celib-api")
 include(":celib-bridge:fabric:common")
+//include(":celib-mod")
 /** <-- Bridges --> */
 include(":celib-bridge:fabric:1.16")
 include(":celib-bridge:fabric:1.17")
+include(":celib-bridge:fabric:1.18")
 include(":celib-bridge:fabric:1.20.6")
 /** <-- Bridges --> */
-include(":celib-mod")

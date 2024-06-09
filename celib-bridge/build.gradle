@@ -1,0 +1,36 @@
+plugins {
+    id "java"
+}
+
+subprojects {
+    apply plugin: "java"
+
+    final JavaVersion java_version = JavaVersion.toVersion(project.java_version)
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation "jakarta.annotation:jakarta.annotation-api:${project.jakarta_version}"
+
+        compileOnly "org.projectlombok:lombok:${project.lombok_version}"
+        annotationProcessor "org.projectlombok:lombok:${project.lombok_version}"
+        testCompileOnly "org.projectlombok:lombok:${project.lombok_version}"
+        testAnnotationProcessor "org.projectlombok:lombok:${project.lombok_version}"
+
+        implementation project(":celib-api")
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        it.options.release = java_version.ordinal() + 1
+    }
+
+    java {
+        withSourcesJar()
+        withJavadocJar()
+        sourceCompatibility = java_version
+        targetCompatibility = java_version
+    }
+}
