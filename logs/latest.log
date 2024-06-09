@@ -1,3 +1,0 @@
-[15:46:44] [Test worker/INFO]: preConstructTestInstance: CelibBlockPropertiesTests
-[15:46:44] [Test worker/INFO]: interceptTestClassConstructor CelibBlockPropertiesTests
-[15:46:44] [Test worker/INFO]: postProcessTestInstance: CelibBlockPropertiesTests

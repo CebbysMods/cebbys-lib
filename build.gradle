@@ -1,65 +1,11 @@
 plugins {
-    id 'fabric-loom' version '0.13-SNAPSHOT'
-    id 'maven-publish'
+    id 'java'
 }
-
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
-
-archivesBaseName = project.archives_base_name
-version = project.mod_version + "+" + project.minecraft_version
-group = project.maven_group
 
 repositories {
     mavenCentral()
 }
 
-dependencies {
-    annotationProcessor 'javax.annotation:javax.annotation-api:1.3.2'
-
-    // Fabric and minecraft
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings loom.officialMojangMappings()
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-    // Lombok
-    compileOnly 'org.projectlombok:lombok:1.18.24'
-    annotationProcessor 'org.projectlombok:lombok:1.18.24'
-    testCompileOnly 'org.projectlombok:lombok:1.18.24'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
-
-    // JUnit
-    implementation "org.mockito:mockito-core:${project.version_mockito}"
-    implementation "org.junit.jupiter:junit-jupiter-api:${project.version_junit}"
-    runtimeOnly "org.junit.jupiter:junit-jupiter-engine:${project.version_junit}"
-}
-
-processResources {
-    Map<?, ?> properties = Map.of(
-            "modid", project.archives_base_name,
-            "version", project.version,
-            "dependency_minecraft", getMinecraftDependency()
-    )
-
-    inputs.properties(properties)
-
-    filesMatching("fabric.mod.json") {
-        expand properties
-    }
-}
-
-tasks.withType(JavaCompile).configureEach {
-    // Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
-    it.options.release = 17
-}
-
-java {
-    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-    // if it is present.
-    // If you remove this line, sources will not be generated.
-    withSourcesJar()
-}
 
 jar {
     from("LICENSE") {
@@ -69,36 +15,4 @@ jar {
 
 test {
     useJUnitPlatform()
-}
-
-// configure the maven publication
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-        }
-    }
-
-    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-    repositories {
-        maven {
-            credentials {
-                username = System.getenv("REPO_USERNAME")
-                password = System.getenv("REPO_PASSWORD")
-            }
-            url = "https://prod-cebbys-repomanager.herokuapp.com"
-        }
-    }
-}
-
-String getMinecraftDependency() {
-    String minecraftVersion = project.minecraft_version;
-    if (minecraftVersion == null || "" == minecraftVersion) throw new RuntimeException("Provided minecraft version is invalid")
-    if (minecraftVersion.matches('^[\\d]+.[\\d]+.[\\d]+$')) {
-        return minecraftVersion.substring(0, minecraftVersion.lastIndexOf(".")) + ".x"
-    } else if (minecraftVersion.matches('^[\\d]+.[\\d]+$')) {
-        return minecraftVersion + ".x"
-    } else {
-        throw new RuntimeException("Provided minecraft version is invalid: " + minecraftVersion)
-    }
 }

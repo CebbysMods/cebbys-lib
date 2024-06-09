@@ -32,3 +32,7 @@ bin/
 
 run/
 **/Temp.*
+
+# minecraft
+**/logs/**
+**/*.gz
