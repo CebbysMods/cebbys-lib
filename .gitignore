@@ -36,3 +36,4 @@ run/
 # minecraft
 **/logs/**
 **/*.gz
+**/*.pyc
