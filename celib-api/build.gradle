@@ -1,6 +1,14 @@
 plugins {
+    id "maven-publish"
     id "java"
 }
+
+sourceCompatibility = JavaVersion.VERSION_21
+targetCompatibility = JavaVersion.VERSION_21
+
+archivesBaseName = "celib-api"
+version = project.mod_version + ".build.8"
+group = project.maven_group + ".celib"
 
 repositories {
     mavenCentral()
@@ -13,4 +21,21 @@ dependencies {
     testAnnotationProcessor "org.projectlombok:lombok:1.18.32"
 
     implementation "jakarta.annotation:jakarta.annotation-api:3.0.0"
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 21
+}
+
+java {
+    withSourcesJar()
+}
+
+// configure the maven publication
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
 }

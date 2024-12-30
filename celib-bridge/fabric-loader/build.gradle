@@ -1,0 +1,82 @@
+plugins {
+    id "fabric-loom" version "1.6-SNAPSHOT"
+    id "maven-publish"
+    id "java"
+}
+
+base {
+    archivesName = "fabric-bridge-1-16"
+    version = project.mod_version
+    group = project.maven_group
+}
+
+configurations {
+    include
+    compileOnly {
+        extendsFrom include
+    }
+    runtimeOnly {
+        extendsFrom include
+    }
+}
+
+jar {
+    dependsOn(":mvl-core:build")
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from {
+        configurations.include.collect { it.isDirectory() ? it : zipTree(it) }
+    } {
+        includeEmptyDirs = false
+        eachFile { copyDetails ->
+            if(!shouldInclude(copyDetails.relativePath)) {
+                copyDetails.exclude()
+            }
+        }
+    }
+    exclude "META-INF/**"
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:1.20.6"
+    mappings loom.officialMojangMappings()
+
+    compileOnly "net.fabricmc:fabric-loader:0.15.11"
+    compileOnly "net.fabricmc.fabric-api:fabric-api:0.99.4+1.20.6"
+
+    modImplementation "lv.cebbys.mcmods.mvl:minecraft-version-loader:3.0.0"
+
+    include project(":celib-bridge:fabric-1-16")
+    include project(":celib-bridge:fabric-1-17")
+    include project(":celib-bridge:fabric-1-18")
+    include project(":celib-bridge:fabric-1-19")
+    include project(":celib-bridge:fabric-1-20")
+    include project(":celib-bridge:fabric-1-20-6")
+}
+
+var publication_name = "celib-fabric-bridge-loader"
+var publication_group = project.maven_group
+var publication_version = project.mod_version
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact tasks.remapJar
+            artifact tasks.jar
+
+            groupId = publication_group // Replace with your group ID
+            artifactId = publication_name
+            version = publication_version
+        }
+    }
+}
+
+static boolean shouldInclude(RelativePath path) {
+    var blacklist = List.of()
+
+    var string = path.toString()
+    if (blacklist.stream().anyMatch { string.startsWith(it) }) {
+        println "Skipping include of '${path}'"
+        return false
+    }
+    return true
+}

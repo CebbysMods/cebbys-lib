@@ -9,12 +9,25 @@ pluginManagement {
     }
 }
 
+// API for mod development
 include(":celib-api")
-include(":celib-bridge:fabric:common")
-//include(":celib-mod")
+// API initializer based on minecraft and mod loader version
+include(":celib-mod:common-mod")
+include(":celib-mod:fabric-mod")
+include(":celib-mod:neoforge-mod")
+// Version implementations
+include(":celib-bridge")
+// Test mod
+include(":celib-test:fabric-test")
+include(":celib-test:neoforge-test")
+
+//include(":celib-bridge:fabric-common")
+//include(":celib-bridge:fabric-loader")
 /** <-- Bridges --> */
-include(":celib-bridge:fabric:1.16")
-include(":celib-bridge:fabric:1.17")
-include(":celib-bridge:fabric:1.18")
-include(":celib-bridge:fabric:1.20.6")
+//include(":celib-bridge:fabric-1-16")
+//include(":celib-bridge:fabric-1-17")
+//include(":celib-bridge:fabric-1-18")
+//include(":celib-bridge:fabric-1-19")
+//include(":celib-bridge:fabric-1-20")
+//include(":celib-bridge:fabric-1-20-6")
 /** <-- Bridges --> */
